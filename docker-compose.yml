@@ -1,0 +1,48 @@
+version: '3'
+services:
+  frontend:
+    build: 
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - VUE_APP_API_URL=http://localhost:8000
+    depends_on:
+      - backend
+
+  backend:
+    build: 
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgres://markuser:markpassword@db:5432/markdb?sslmode=disable
+    depends_on:
+      - db
+    command: ["/app/wait-for-it.sh", "db:5432", "--", "/app/main"]
+
+  db:
+    image: postgres:13
+    environment:
+      POSTGRES_DB: markdb
+      POSTGRES_USER: markuser
+      POSTGRES_PASSWORD: markpassword
+    volumes:
+      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - pgdata:/var/lib/postgresql/data
+
+  queue:
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
+  external-api-mock:
+    image: mockserver/mockserver
+    ports:
+      - "1080:1080"
+
+volumes:
+  pgdata:
