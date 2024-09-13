@@ -1,4 +1,3 @@
-version: '3'
 services:
   frontend:
     build: 
@@ -21,7 +20,8 @@ services:
       - DATABASE_URL=postgres://markuser:markpassword@db:5432/markdb?sslmode=disable
     depends_on:
       - db
-    command: ["/app/wait-for-it.sh", "db:5432", "--", "/app/main"]
+    command: ["/app/main"]
+    # command: ["/app/wait-for-it.sh", "db:5432", "--", "/app/main"]
 
   db:
     image: postgres:13
@@ -32,6 +32,11 @@ services:
     volumes:
       - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
       - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U markuser -d markdb"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
   queue:
     image: rabbitmq:3-management
