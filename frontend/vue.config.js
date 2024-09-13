@@ -8,8 +8,17 @@ module.exports = {
                 process: 'process/browser',
             }),
         ],
-        resolve: {
-        },
     },
-    lintOnSave: false
+    lintOnSave: false,
+    devServer: {
+        proxy: {
+            '/api': {
+                target: 'http://localhost:1080',
+                changeOrigin: true,
+                pathRewrite: {
+                    '^/api': ''
+                }
+            }
+        }
+    }
 };

@@ -4,11 +4,13 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
     ports:
-      - "8080:8080"
+      - "8080:80"
     environment:
-      - VUE_APP_API_URL=http://localhost:8000
+      - VUE_APP_API_URL=http://localhost:1080
     depends_on:
-      - backend
+      - external-api-mock
+    networks:
+      - app-network
 
   backend:
     build: 
@@ -20,8 +22,8 @@ services:
       - DATABASE_URL=postgres://markuser:markpassword@db:5432/markdb?sslmode=disable
     depends_on:
       - db
-    command: ["/app/main"]
-    # command: ["/app/wait-for-it.sh", "db:5432", "--", "/app/main"]
+    networks:
+      - app-network
 
   db:
     image: postgres:13
@@ -37,17 +39,34 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
+    networks:
+      - app-network
 
   queue:
     image: rabbitmq:3-management
     ports:
       - "5672:5672"
       - "15672:15672"
+    networks:
+      - app-network
 
   external-api-mock:
     image: mockserver/mockserver
+    container_name: mockserver
     ports:
       - "1080:1080"
+    volumes:
+      - ./mockserver_expectations.json:/config/mockserver_expectations.json
+    environment:
+      MOCKSERVER_INITIALIZATION_JSON_PATH: "/config/mockserver_expectations.json"
+    depends_on:
+      - backend
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
 
 volumes:
   pgdata:

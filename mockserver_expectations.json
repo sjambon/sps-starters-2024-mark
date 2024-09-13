@@ -1,0 +1,49 @@
+[
+    {
+        "httpRequest": {
+            "method": "OPTIONS",
+            "path": "/campaigns"
+        },
+        "httpResponse": {
+            "statusCode": 200,
+            "headers": {
+                "Access-Control-Allow-Origin": [
+                    "*"
+                ],
+                "Access-Control-Allow-Methods": [
+                    "GET",
+                    "POST",
+                    "OPTIONS"
+                ],
+                "Access-Control-Allow-Headers": [
+                    "Content-Type"
+                ],
+                "Access-Control-Max-Age": [
+                    "3600"
+                ]
+            }
+        }
+    },
+    {
+        "httpRequest": {
+            "method": "GET",
+            "path": "/campaigns"
+        },
+        "httpForward": {
+            "host": "backend",
+            "port": 8000,
+            "scheme": "HTTP"
+        }
+    },
+    {
+        "httpRequest": {
+            "method": "POST",
+            "path": "/campaigns"
+        },
+        "httpForward": {
+            "host": "backend",
+            "port": 8000,
+            "scheme": "HTTP"
+        }
+    }
+]

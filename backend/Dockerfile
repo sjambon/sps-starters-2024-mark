@@ -1,5 +1,5 @@
 # Use the official Golang image to create a build artifact.
-FROM golang:1.16 as builder
+FROM golang:1.16 AS builder
 
 # Set the working directory outside $GOPATH to enable the support for modules.
 WORKDIR /src
