@@ -10,6 +10,6 @@ Repo with code to deploy MARK, the campaign manager for AE.
 ## Setup
 
 1. Clone `main` branch
-2. Navigate to the repository
-3. Run `docker compose up --build -d`
+2. Navigate to the the root of the repository
+3. Run `docker compose up -d`
 4. Open your browser and go to `http://localhost:8080`
