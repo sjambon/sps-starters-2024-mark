@@ -7,6 +7,6 @@ CREATE TABLE IF NOT EXISTS campaigns (
 
 -- Insert some sample data
 INSERT INTO campaigns (name, description) VALUES
-    ('Summer Sale', 'Promotional campaign for summer products'),
-    ('New Product Launch', 'Campaign to introduce our latest product'),
-    ('Holiday Special', 'Special discounts for the holiday season');
+    ('Social Media', 'Let us unite and expand on social media'),
+    ('Software architecture', 'Advanced software architecture with residuality'),
+    ('AE turns 25', 'Something to celebrate: AE turns 25 today');
