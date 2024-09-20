@@ -30,6 +30,7 @@ jobs:
         working-directory: backend
         run: |
               pwd
+              ls -l
               go get .
 
       - name: Build
