@@ -28,18 +28,15 @@ jobs:
 
       - name: Install Dependencies
         working-directory: ./backend
-        run: |
-              pwd
-              ls -l
-              cd backend && go mod tidy
+        run: cd backend && go mod tidy
 
       - name: Build
         working-directory: backend
-        run: go build -v ./...
+        run: cd backend && go build -v ./...
 
       - name: Run Tests
         working-directory: backend
-        run: go test -v ./...
+        run: cd backend && go test -v ./...
 
   frontend:
     name: Build and Test Vue.js Frontend
