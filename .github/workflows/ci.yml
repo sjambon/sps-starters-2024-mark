@@ -61,7 +61,9 @@ jobs:
         run: cd frontend && npm install
 
       - name: Build
+        working-directory: frontend
         run: cd frontend && npm run build
 
       - name: Run Tests
+        working-directory: frontend
         run: cd frontend && npm run test
