@@ -26,15 +26,11 @@ jobs:
         with:
           go-version: '1.21'
 
-      - name: Print working directory
-        run: pwd
-
-      - name: List files in working directory
-        run: ls -la
-
       - name: Install Dependencies
         working-directory: backend
-        run: go get .
+        run: |
+              pwd
+              go get .
 
       - name: Build
         working-directory: backend
