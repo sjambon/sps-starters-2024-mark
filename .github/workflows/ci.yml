@@ -59,7 +59,7 @@ jobs:
       - name: Install Dependencies
         working-directory: frontend
         run: |
-              ls
+              ls frontend
               pwd
               npm install
 
