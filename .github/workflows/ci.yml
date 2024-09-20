@@ -27,7 +27,7 @@ jobs:
           go-version: '1.21'
 
       - name: Install Dependencies
-        working-directory: ./backend
+        working-directory: backend
         run: |
               pwd
               ls -l
@@ -55,10 +55,8 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '18'
-          cache: 'npm'
 
       - name: Install Dependencies
-        working-directory: ./frontend/
         run: cd frontend && npm ci
 
       - name: Build
