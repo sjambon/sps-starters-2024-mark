@@ -1,0 +1,67 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches:
+      - main
+      - dev
+  pull_request:
+    branches:
+      - main
+      - dev
+
+jobs:
+  backend:
+    name: Build and Test Go Backend
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          path: backend
+
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: '1.21'
+
+      - name: Install Dependencies
+        working-directory: backend
+        run: go mod download
+
+      - name: Build
+        working-directory: backend
+        run: go build -v ./...
+
+      - name: Run Tests
+        working-directory: backend
+        run: go test -v ./...
+
+  frontend:
+    name: Build and Test Vue.js Frontend
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          path: frontend
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install Dependencies
+        working-directory: frontend
+        run: npm install
+
+      - name: Build
+        working-directory: frontend
+        run: npm run build
+
+      - name: Run Tests
+        working-directory: frontend
+        run: npm run test
